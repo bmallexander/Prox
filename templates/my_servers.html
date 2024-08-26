@@ -36,9 +36,9 @@
                     {{ node.name }} - {{ node.description }}
                     <!-- Buttons for managing the container -->
                     <form action="{{ url_for('manage_container', vmid=node.vmid) }}" method="post" style="display:inline;">
-                        <button name="action" value="start">Start</button>
-                        <button name="action" value="stop">Stop</button>
-                        <button name="action" value="restart">Restart</button>
+                        <button type="submit" name="action" value="start">Start</button>
+                        <button type="submit" name="action" value="stop">Stop</button>
+                        <button type="submit" name="action" value="restart">Restart</button>
                     </form>
                 </li>
                 {% endfor %}

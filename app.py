@@ -507,36 +507,34 @@ def manage_container(vmid):
         return redirect(url_for('my_servers'))
 
     try:
-        token = get_proxmox_token()
-        csrf_token = token['data']['CSRFPreventionToken']
-        ticket = token['data']['ticket']
+        conn = libvirt.open('qemu:///system')  # Connect to the local libvirt daemon
+        domain = conn.lookupByID(vmid)  # Lookup the VM by its ID
 
-        actions_map = {
-            'start': f"{PROXMOX_API_URL}/nodes/proxmox/lxc/{vmid}/status/start",
-            'stop': f"{PROXMOX_API_URL}/nodes/proxmox/lxc/{vmid}/status/stop",
-            'restart': f"{PROXMOX_API_URL}/nodes/proxmox/lxc/{vmid}/status/restart"
-        }
-
-        response = requests.post(
-            actions_map[action],
-            headers={
-                'Authorization': f'PVEAuthCookie={ticket}',
-                'CSRFPreventionToken': csrf_token
-            },
-            verify=False
-        )
-        response.raise_for_status()
-        flash(f'Container {action}ed successfully!')
-    except requests.exceptions.HTTPError as err:
-        error_message = f"HTTP error occurred: {err}\nResponse content: {err.response.text}"
-        print(error_message)
-        flash(f'An error occurred while {action}ing the container: {error_message}')
-    except Exception as err:
-        print(f"Unexpected error occurred: {err}")
-        flash(f'An unexpected error occurred while {action}ing the container: {err}')
+        if action == 'start':
+            if domain.isActive():
+                flash('VM is already running.')
+            else:
+                domain.create()  # Start the VM
+                flash('VM started successfully!')
+        elif action == 'stop':
+            if not domain.isActive():
+                flash('VM is not running.')
+            else:
+                domain.shutdown()  # Gracefully stop the VM
+                flash('VM stopped successfully!')
+        elif action == 'restart':
+            if not domain.isActive():
+                flash('VM is not running. Starting the VM first.')
+                domain.create()  # Start the VM
+            else:
+                domain.reboot()  # Restart the VM
+                flash('VM restarted successfully!')
+        
+        conn.close()
+    except libvirt.libvirtError as e:
+        flash(f'An error occurred: {str(e)}')
 
     return redirect(url_for('my_servers'))
-
 
 
 

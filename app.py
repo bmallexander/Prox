@@ -575,6 +575,11 @@ def handle_exec_command(data):
         emit('exec_response', {'error': str(e)})
 
 
+@app.route('/terminal/<int:vmid>', methods=['GET'])
+@login_required
+def terminal(vmid):
+    # Your code here
+    pass
 
 
 

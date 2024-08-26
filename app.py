@@ -21,9 +21,7 @@ db = SQLAlchemy(app)
 login_manager = LoginManager(app)
 login_manager.login_view = 'login'
 
-PROXMOX_API_URL = 'https://37.114.37.146:8006/api2/json'
-PROXMOX_USER = 'root@pam'
-PROXMOX_PASSWORD = 'voa7rARiToPO6h4rK37A'
+
 
 OXAPAY_API_URL = 'https://api.oxapay.com/v1'
 OXAPAY_API_KEY = 'your_oxapay_api_key'
@@ -131,7 +129,7 @@ def create_vm(name, memory, disk, cores, password):
     finally:
         conn.close()
 
-        
+
 def get_vm_list():
     conn = connect_libvirt()
     try:

@@ -8,7 +8,6 @@ import requests
 import urllib3
 import secrets
 import string
-import paramiko
 
 
 # Disable SSL warnings for development

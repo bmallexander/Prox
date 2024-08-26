@@ -41,9 +41,6 @@
                         <button name="action" value="restart">Restart</button>
                     </form>
                     <!-- Button to go to the terminal -->
-                    <form action="{{ url_for('terminal', vmid=node.vmid) }}" method="get" style="display:inline;">
-                        <button type="submit">Go to Terminal</button>
-                    </form>
                 </li>
                 {% endfor %}
             </ul>

@@ -168,6 +168,7 @@ def my_servers():
     return render_template('my_servers.html', nodes=user_nodes)
 
 
+
 @app.route('/')
 @login_required
 def index():
@@ -539,51 +540,7 @@ def manage_container(vmid):
 
 
 
-
-@socketio.on('connect')
-def handle_connect():
-    token = get_proxmox_token()
-    emit('connected', {'status': 'connected', 'ticket': token['data']['ticket'], 'csrf_token': token['data']['CSRFPreventionToken']})
-
-@socketio.on('exec_command')
-def handle_exec_command(data):
-    vmid = data.get('vmid')
-    command = data.get('command')
-    ticket = data.get('ticket')
-    csrf_token = data.get('csrf_token')
-
-    if not vmid or not command or not ticket or not csrf_token:
-        emit('exec_response', {'error': 'Invalid parameters'})
-        return
-
-    # Assume SSH-based command execution as Proxmox API might not support direct command execution
-    try:
-        # Establish SSH connection
-        ssh = paramiko.SSHClient()
-        ssh.set_missing_host_key_policy(paramiko.AutoAddPolicy())
-        ssh.connect(hostname='your-proxmox-host', username='root', password='your-password')
-
-        stdin, stdout, stderr = ssh.exec_command(command)
-        output = stdout.read().decode()
-        error = stderr.read().decode()
-
-        ssh.close()
-
-        emit('exec_response', {'output': output, 'error': error})
-
-    except Exception as e:
-        emit('exec_response', {'error': str(e)})
-
-
-@app.route('/terminal/<int:vmid>', methods=['GET'])
-@login_required
-def terminal(vmid):
-    # Your code here
-    pass
-
-
-
 if __name__ == '__main__':
     with app.app_context():
-        db.create_all()  # Create database tables
+        db.create_all()  
     app.run(debug=True)

@@ -1,0 +1,40 @@
+<!doctype html>
+<html lang="en">
+<head>
+    <meta charset="utf-8">
+    <title>Add Plan</title>
+</head>
+<body>
+    <h1>Add New Plan</h1>
+    <form method="post">
+        <label for="name">Name:</label>
+        <input type="text" id="name" name="name" required>
+        <br>
+        <label for="description">Description:</label>
+        <textarea id="description" name="description" required></textarea>
+        <br>
+        <label for="price">Price (credits):</label>
+        <input type="number" id="price" name="price" required>
+        <br>
+        <label for="cores">CPU Cores:</label>
+        <input type="number" id="cores" name="cores" required>
+        <br>
+        <label for="memory">Memory (MB):</label>
+        <input type="number" id="memory" name="memory" required>
+        <br>
+        <label for="disk">Disk (GB):</label>
+        <input type="number" id="disk" name="disk" required>
+        <br>
+        <label for="max_cores">Max Cores:</label>
+        <input type="number" id="max_cores" name="max_cores" required>
+        <br>
+        <label for="max_memory">Max Memory (MB):</label>
+        <input type="number" id="max_memory" name="max_memory" required>
+        <br>
+        <label for="max_disk">Max Disk (GB):</label>
+        <input type="number" id="max_disk" name="max_disk" required>
+        <br>
+        <input type="submit" value="Add Plan">
+    </form>
+</body>
+</html>

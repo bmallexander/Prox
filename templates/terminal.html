@@ -1,0 +1,39 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Proxmox Terminal</title>
+    <script src="https://cdn.socket.io/4.0.0/socket.io.min.js"></script>
+</head>
+<body>
+    <h1>Proxmox Terminal</h1>
+    <textarea id="console" rows="20" cols="100" readonly></textarea><br>
+    <input type="text" id="command" placeholder="Enter command">
+    <button onclick="sendCommand()">Send Command</button>
+
+    <script>
+        const socket = io();
+
+        socket.on('connected', (data) => {
+            console.log('Connected:', data);
+        });
+
+        socket.on('exec_response', (data) => {
+            const console = document.getElementById('console');
+            if (data.output) {
+                console.value += data.output + "\n";
+            }
+            if (data.error) {
+                console.value += 'Error: ' + data.error + "\n";
+            }
+        });
+
+        function sendCommand() {
+            const command = document.getElementById('command').value;
+            const vmid = '100';  // Replace with actual VM ID
+            socket.emit('exec_command', { vmid: vmid, command: command });
+        }
+    </script>
+</body>
+</html>

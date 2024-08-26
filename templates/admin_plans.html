@@ -1,0 +1,42 @@
+<!doctype html>
+<html lang="en">
+<head>
+    <meta charset="utf-8">
+    <title>Admin Plans</title>
+</head>
+<body>
+    <h1>Manage Plans</h1>
+    <a href="{{ url_for('admin_add_plan') }}">Add New Plan</a>
+    <table>
+        <thead>
+            <tr>
+                <th>Name</th>
+                <th>Description</th>
+                <th>Price</th>
+                <th>CPU Cores</th>
+                <th>Memory (MB)</th>
+                <th>Disk (GB)</th>
+                <th>Actions</th>
+            </tr>
+        </thead>
+        <tbody>
+            {% for plan in plans %}
+            <tr>
+                <td>{{ plan.name }}</td>
+                <td>{{ plan.description }}</td>
+                <td>{{ plan.price }}</td>
+                <td>{{ plan.cores }}</td>
+                <td>{{ plan.memory }}</td>
+                <td>{{ plan.disk }}</td>
+                <td>
+                    <a href="{{ url_for('admin_edit_plan', plan_id=plan.id) }}">Edit</a>
+                    <form action="{{ url_for('admin_delete_plan', plan_id=plan.id) }}" method="post" style="display:inline;">
+                        <input type="submit" value="Delete">
+                    </form>
+                </td>
+            </tr>
+            {% endfor %}
+        </tbody>
+    </table>
+</body>
+</html>

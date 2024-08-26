@@ -1,0 +1,41 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <link rel="stylesheet" href="{{ url_for('static', filename='styles.css') }}">
+    <title>Add Balance</title>
+</head>
+<body>
+    <header>
+        <div class="container">
+            <div class="logo">
+                <h1>Server Management</h1>
+            </div>
+            <nav>
+                <ul>
+                    <li><a href="{{ url_for('index') }}">Home</a></li>
+                    <li><a href="{{ url_for('my_servers') }}">My Servers</a></li>
+                    <li><a href="{{ url_for('add_balance') }}">Add Balance</a></li>
+                    <li><a href="{{ url_for('logout') }}">Logout</a></li>
+                </ul>
+            </nav>
+            <div class="credits">
+                <p>Your current credits: <strong>{{ user_credits }}</strong></p>
+            </div>
+        </div>
+    </header>
+
+    <main>
+        <div class="container">
+            <h2>Add Balance</h2>
+            <form action="{{ url_for('add_balance') }}" method="POST" class="balance-form">
+                <label for="amount">Amount (in dollars):</label>
+                <input type="number" name="amount" id="amount" min="1" required>
+                <button type="submit">Add Balance</button>
+            </form>
+            <a href="{{ url_for('index') }}" class="back-link">Back to Home</a>
+        </div>
+    </main>
+</body>
+</html>
